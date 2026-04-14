@@ -2,6 +2,10 @@ const loginForm = document.getElementById('login-form');
 const registerForm = document.getElementById('register-form');
 const loginTab = document.getElementById('login-tab');
 const registerTab = document.getElementById('register-tab');
+const loginSubmitBtn = document.getElementById('login-submit-btn');
+const registerSubmitBtn = document.getElementById('register-submit-btn');
+const passwordInput = document.getElementById('register-password');
+const passwordStrength = document.getElementById('password-strength');
 const profileButton = document.getElementById('profile-btn');
 const dataButton = document.getElementById('data-btn');
 const logoutButton = document.getElementById('logout-btn');
@@ -49,6 +53,46 @@ function setResult(data) {
   resultEl.textContent = JSON.stringify(data, null, 2);
 }
 
+function setLoading(button, isLoading) {
+  const btnText = button.querySelector('.btn-text');
+  const btnLoading = button.querySelector('.btn-loading');
+
+  if (isLoading) {
+    button.disabled = true;
+    btnText.style.display = 'none';
+    btnLoading.style.display = 'inline-flex';
+  } else {
+    button.disabled = false;
+    btnText.style.display = 'inline';
+    btnLoading.style.display = 'none';
+  }
+}
+
+function checkPasswordStrength(password) {
+  let score = 0;
+
+  // 長度檢查
+  if (password.length >= 8) score += 1;
+  if (password.length >= 12) score += 1;
+
+  // 字元類型檢查
+  if (/[a-z]/.test(password)) score += 1; // 小寫字母
+  if (/[A-Z]/.test(password)) score += 1; // 大寫字母
+  if (/[0-9]/.test(password)) score += 1; // 數字
+  if (/[^A-Za-z0-9]/.test(password)) score += 1; // 特殊字元
+
+  if (score <= 2) return 'weak';
+  if (score <= 4) return 'medium';
+  return 'strong';
+}
+
+function updatePasswordStrength() {
+  const password = passwordInput.value;
+  const strength = checkPasswordStrength(password);
+
+  passwordStrength.className = `password-strength ${strength}`;
+}
+
 function switchTab(activeTab, activeForm) {
   // Update tabs
   loginTab.classList.remove('active');
@@ -88,6 +132,7 @@ loginForm.addEventListener('submit', async (event) => {
   const username = document.getElementById('login-username').value.trim();
   const password = document.getElementById('login-password').value;
 
+  setLoading(loginSubmitBtn, true);
   try {
     setStatus('登入中...');
     const response = await request('/api/auth/login', {
@@ -101,6 +146,8 @@ loginForm.addEventListener('submit', async (event) => {
   } catch (error) {
     setStatus(`登入失敗：${error.message}`, true);
     setResult({});
+  } finally {
+    setLoading(loginSubmitBtn, false);
   }
 });
 
@@ -109,6 +156,14 @@ registerForm.addEventListener('submit', async (event) => {
   const username = document.getElementById('register-username').value.trim();
   const password = document.getElementById('register-password').value;
 
+  // 檢查密碼強度
+  const strength = checkPasswordStrength(password);
+  if (strength === 'weak') {
+    setStatus('密碼太弱，請使用更強的密碼', true);
+    return;
+  }
+
+  setLoading(registerSubmitBtn, true);
   try {
     setStatus('註冊中...');
     const response = await request('/api/auth/register', {
@@ -123,6 +178,8 @@ registerForm.addEventListener('submit', async (event) => {
   } catch (error) {
     setStatus(`註冊失敗：${error.message}`, true);
     setResult({});
+  } finally {
+    setLoading(registerSubmitBtn, false);
   }
 });
 
@@ -164,6 +221,9 @@ logoutButton.addEventListener('click', () => {
   setStatus('已登出，JWT 已清除');
   setResult({});
 });
+
+// Password strength checker
+passwordInput.addEventListener('input', updatePasswordStrength);
 
 updateButtons();
 

@@ -107,15 +107,75 @@ button {
   background: linear-gradient(135deg, #2563eb, #14b8a6);
   color: white;
   transition: transform 0.16s ease, opacity 0.16s ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
-button:hover {
+button:hover:not(:disabled) {
   transform: translateY(-1px);
 }
 
 button:disabled {
   opacity: 0.55;
   cursor: not-allowed;
+  transform: none;
+}
+
+.btn-loading {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-loading::after {
+  content: '';
+  width: 12px;
+  height: 12px;
+  border: 2px solid #ffffff;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.password-strength {
+  margin-top: 6px;
+  height: 4px;
+  background: rgba(15, 23, 42, 0.5);
+  border-radius: 2px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.password-strength::after {
+  content: '';
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #ef4444, #f97316, #eab308, #22c55e);
+  transition: width 0.3s ease;
+}
+
+.password-strength.weak::after {
+  width: 33%;
+  background: linear-gradient(90deg, #ef4444);
+}
+
+.password-strength.medium::after {
+  width: 66%;
+  background: linear-gradient(90deg, #ef4444, #f97316, #eab308);
+}
+
+.password-strength.strong::after {
+  width: 100%;
+  background: linear-gradient(90deg, #ef4444, #f97316, #eab308, #22c55e);
 }
 
 .actions {

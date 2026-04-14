@@ -28,7 +28,10 @@
             Password
             <input type="password" id="login-password" autocomplete="current-password" required />
           </label>
-          <button type="submit">登入</button>
+          <button type="submit" id="login-submit-btn">
+            <span class="btn-text">登入</span>
+            <span class="btn-loading" style="display: none;">載入中...</span>
+          </button>
         </form>
 
         <!-- Register Form -->
@@ -40,8 +43,12 @@
           <label>
             Password
             <input type="password" id="register-password" autocomplete="new-password" required />
+            <div id="password-strength" class="password-strength"></div>
           </label>
-          <button type="submit">註冊</button>
+          <button type="submit" id="register-submit-btn">
+            <span class="btn-text">註冊</span>
+            <span class="btn-loading" style="display: none;">載入中...</span>
+          </button>
         </form>
 
         <div class="actions">
