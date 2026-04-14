@@ -25,9 +25,19 @@ function setToken(token) {
 
 function updateButtons() {
   const hasToken = Boolean(getToken());
-  profileButton.disabled = !hasToken;
-  dataButton.disabled = !hasToken;
-  logoutButton.disabled = !hasToken;
+  const actionsEl = document.querySelector('.actions');
+
+  if (hasToken) {
+    actionsEl.classList.add('show');
+    profileButton.disabled = false;
+    dataButton.disabled = false;
+    logoutButton.disabled = false;
+  } else {
+    actionsEl.classList.remove('show');
+    profileButton.disabled = true;
+    dataButton.disabled = true;
+    logoutButton.disabled = true;
+  }
 }
 
 function setStatus(message, isError = false) {

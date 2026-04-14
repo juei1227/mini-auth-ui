@@ -119,9 +119,13 @@ button:disabled {
 }
 
 .actions {
-  display: grid;
+  display: none;
   gap: 12px;
   margin-top: 20px;
+}
+
+.actions.show {
+  display: flex;
 }
 
 .status {
