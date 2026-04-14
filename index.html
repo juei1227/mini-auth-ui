@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini Auth UI</title>
+    <link rel="stylesheet" href="src/style.css" />
+  </head>
+  <body>
+    <main class="container">
+      <section class="card" id="auth-card">
+        <h1>Mini Auth UI</h1>
+        <p>使用 JWT 與後端 API 進行登入與授權測試</p>
+
+        <form id="login-form" class="form">
+          <label>
+            Username
+            <input type="text" id="username" autocomplete="username" required />
+          </label>
+          <label>
+            Password
+            <input type="password" id="password" autocomplete="current-password" required />
+          </label>
+          <button type="submit">登入</button>
+        </form>
+
+        <div class="actions">
+          <button id="profile-btn" disabled>取得個人資料</button>
+          <button id="data-btn" disabled>取得受保護資料</button>
+          <button id="logout-btn" disabled>登出</button>
+        </div>
+
+        <div id="status" class="status">狀態訊息會顯示在這裡</div>
+        <pre id="result" class="result"></pre>
+      </section>
+    </main>
+
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>
