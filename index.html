@@ -54,6 +54,7 @@
         <div class="actions">
           <button id="profile-btn" disabled>取得個人資料</button>
           <button id="data-btn" disabled>取得受保護資料</button>
+          <button id="change-password-btn" disabled>修改密碼</button>
           <button id="logout-btn" disabled>登出</button>
         </div>
 
@@ -61,6 +62,35 @@
         <pre id="result" class="result"></pre>
       </section>
     </main>
+
+    <!-- Change Password Modal -->
+    <div id="change-password-modal" class="modal">
+      <div class="modal-content" onclick="event.stopPropagation()">
+        <h2>修改密碼</h2>
+        <form id="change-password-form" class="modal-form">
+          <label>
+            目前密碼
+            <input type="password" id="current-password" autocomplete="current-password" required />
+          </label>
+          <label>
+            新密碼
+            <input type="password" id="new-password" autocomplete="new-password" required />
+            <div id="new-password-strength" class="password-strength"></div>
+          </label>
+          <label>
+            確認新密碼
+            <input type="password" id="confirm-new-password" autocomplete="new-password" required />
+          </label>
+          <div class="modal-actions">
+            <button type="button" id="cancel-change-password-btn">取消</button>
+            <button type="submit" id="submit-change-password-btn">
+              <span class="btn-text">修改密碼</span>
+              <span class="btn-loading" style="display: none;">修改中...</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
 
     <script type="module" src="src/main.js"></script>
   </body>
