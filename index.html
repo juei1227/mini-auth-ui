@@ -12,16 +12,40 @@
         <h1>Mini Auth UI</h1>
         <p>使用 JWT 與後端 API 進行登入與授權測試</p>
 
-        <form id="login-form" class="form">
+        <!-- Tab Navigation -->
+        <div class="tabs">
+          <button id="login-tab" class="tab active">登入</button>
+          <button id="register-tab" class="tab">註冊</button>
+        </div>
+
+        <!-- Login Form -->
+        <form id="login-form" class="form active">
           <label>
             Username
-            <input type="text" id="username" autocomplete="username" required />
+            <input type="text" id="login-username" autocomplete="username" required />
           </label>
           <label>
             Password
-            <input type="password" id="password" autocomplete="current-password" required />
+            <input type="password" id="login-password" autocomplete="current-password" required />
           </label>
           <button type="submit">登入</button>
+        </form>
+
+        <!-- Register Form -->
+        <form id="register-form" class="form">
+          <label>
+            Username
+            <input type="text" id="register-username" autocomplete="username" required />
+          </label>
+          <label>
+            Email
+            <input type="email" id="register-email" autocomplete="email" required />
+          </label>
+          <label>
+            Password
+            <input type="password" id="register-password" autocomplete="new-password" required />
+          </label>
+          <button type="submit">註冊</button>
         </form>
 
         <div class="actions">

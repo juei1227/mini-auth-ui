@@ -1,4 +1,7 @@
 const loginForm = document.getElementById('login-form');
+const registerForm = document.getElementById('register-form');
+const loginTab = document.getElementById('login-tab');
+const registerTab = document.getElementById('register-tab');
 const profileButton = document.getElementById('profile-btn');
 const dataButton = document.getElementById('data-btn');
 const logoutButton = document.getElementById('logout-btn');
@@ -36,6 +39,18 @@ function setResult(data) {
   resultEl.textContent = JSON.stringify(data, null, 2);
 }
 
+function switchTab(activeTab, activeForm) {
+  // Update tabs
+  loginTab.classList.remove('active');
+  registerTab.classList.remove('active');
+  activeTab.classList.add('active');
+
+  // Update forms
+  loginForm.classList.remove('active');
+  registerForm.classList.remove('active');
+  activeForm.classList.add('active');
+}
+
 async function request(path, options = {}) {
   const token = getToken();
   const headers = new Headers(options.headers || {});
@@ -60,8 +75,8 @@ async function request(path, options = {}) {
 
 loginForm.addEventListener('submit', async (event) => {
   event.preventDefault();
-  const username = document.getElementById('username').value.trim();
-  const password = document.getElementById('password').value;
+  const username = document.getElementById('login-username').value.trim();
+  const password = document.getElementById('login-password').value;
 
   try {
     setStatus('登入中...');
@@ -77,6 +92,38 @@ loginForm.addEventListener('submit', async (event) => {
     setStatus(`登入失敗：${error.message}`, true);
     setResult({});
   }
+});
+
+registerForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const username = document.getElementById('register-username').value.trim();
+  const email = document.getElementById('register-email').value.trim();
+  const password = document.getElementById('register-password').value;
+
+  try {
+    setStatus('註冊中...');
+    const response = await request('/api/auth/register', {
+      method: 'POST',
+      body: JSON.stringify({ username, email, password }),
+    });
+
+    setStatus('註冊成功！請使用新帳號登入');
+    setResult(response);
+    // 自動切換到登入頁面
+    switchTab(loginTab, loginForm);
+  } catch (error) {
+    setStatus(`註冊失敗：${error.message}`, true);
+    setResult({});
+  }
+});
+
+// Tab switching
+loginTab.addEventListener('click', () => {
+  switchTab(loginTab, loginForm);
+});
+
+registerTab.addEventListener('click', () => {
+  switchTab(registerTab, registerForm);
 });
 
 profileButton.addEventListener('click', async () => {
