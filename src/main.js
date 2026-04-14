@@ -97,14 +97,13 @@ loginForm.addEventListener('submit', async (event) => {
 registerForm.addEventListener('submit', async (event) => {
   event.preventDefault();
   const username = document.getElementById('register-username').value.trim();
-  const email = document.getElementById('register-email').value.trim();
   const password = document.getElementById('register-password').value;
 
   try {
     setStatus('註冊中...');
     const response = await request('/api/auth/register', {
       method: 'POST',
-      body: JSON.stringify({ username, email, password }),
+      body: JSON.stringify({ username, password }),
     });
 
     setStatus('註冊成功！請使用新帳號登入');
